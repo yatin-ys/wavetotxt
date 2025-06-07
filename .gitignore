@@ -1,0 +1,28 @@
+# .gitignore
+
+# Backend - .NET Core / Visual Studio
+# ===================================
+# Compiled output and user-specific files
+**/[Bb]in/
+**/[Oo]bj/
+**/Properties/launchSettings.json
+.vs/
+*.user
+*.suo
+
+# Frontend - Node.js / Vite
+# ==============================
+# Dependencies, build output, and environment variables
+**/node_modules/
+**/dist/
+.env
+.env*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
+# Common / OS-specific files
+# ============================
+.DS_Store
+Thumbs.db
