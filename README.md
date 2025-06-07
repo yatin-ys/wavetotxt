@@ -1,3 +1,6 @@
+# WaveToTxt
+WaveToTxt is a modern, full-stack web application that transcribes audio files to text with high accuracy and speed. It features a sleek React frontend and a robust .NET backend, utilizing the Groq API for its powerful transcription capabilities.
+
 ## 🚀 Getting Started
 
 ### Prerequisites
