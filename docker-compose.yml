@@ -1,0 +1,31 @@
+services:
+  # Backend Service Definition
+  backend:
+    build:
+      context: ./backend  # Path to the backend's Dockerfile
+    ports:
+      # Map host port 8090 to the container's port 8080
+      - "8090:8080"
+    env_file:
+      - ./backend/.env  # Load the .env file from the backend directory
+    environment:
+      # This ensures the API key from the .env file is available
+      - GROQ_API_KEY=${GROQ_API_KEY}
+
+  # Frontend Service Definition
+  frontend:
+    build:
+      context: ./frontend # Path to the frontend's Dockerfile
+    ports:
+      # Map host port 3000 to the container's port 80
+      - "3000:80"
+    environment:
+      # This is the magic! We use the service name 'backend' as the hostname.
+      # Docker's internal DNS will resolve 'backend' to the backend container's IP.
+      - VITE_API_URL=http://backend:8080
+    depends_on:
+      - backend # Tells Docker to start the backend before the frontend
+
+networks:
+  default:
+    driver: bridge

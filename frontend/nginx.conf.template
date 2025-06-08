@@ -1,0 +1,35 @@
+# File: frontend/nginx.conf.template
+
+server {
+    listen 80;
+    server_name localhost;
+
+    # Set the maximum allowed size of the client request body.
+    # This must match or exceed the limit in your application (25MB).
+    client_max_body_size 25M;
+
+    # Set the root directory to where our React app's build output is.
+    root /usr/share/nginx/html;
+    index index.html;
+
+    # This rule is crucial for Single Page Applications (SPAs) like React.
+    # If a requested file or directory isn't found, it serves index.html,
+    # allowing React Router to handle the client-side routing.
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # This block handles all requests that start with /api/
+    location /api/ {
+        # The ${VITE_API_URL} variable will be replaced by the value of the
+        # environment variable with the same name when the container starts.
+        # This should be the internal address of your backend service.
+        proxy_pass ${VITE_API_URL};
+        
+        # Standard proxy headers to forward client information to the backend
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
